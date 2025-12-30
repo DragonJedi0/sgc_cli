@@ -1,5 +1,5 @@
 from data import PERSONNEL, MISSIONS
-from models import Personnel, Missions
+from models import Personnel, Missions, Status
 
 def main():
     exit = False
@@ -23,11 +23,9 @@ def main():
             case "2":
                 add_personnel()
             case "3":
-                # list_missions()
-                pass
+                list_missions()
             case "4":
-                # add_mission()
-                pass
+                add_mission()
 
             case "0":
                 print("Exiting...")
@@ -37,12 +35,22 @@ def main():
                 print("******************************************")
                 print("That is not a valid option\nPlease select a valid option (0-4)")
 
+def add_mission():
+    print("Not yet implemented")
+
+def list_missions():
+    print("************************************")
+    print("* Stargate Command Mission Reports *")
+    print("************************************")
+    for mission in MISSIONS:
+        print(f"Mission Report {mission.id}: {mission.title}, {mission.date}; Team Lead: {mission.commanding_officer_id}, Team assigned: {mission.team}")
+
 def list_personnel():
     print("******************************")
     print("* Stargate Command Personnel *")
     print("******************************")
-    for i in range(0, len(PERSONNEL)):
-        print(f"ID {PERSONNEL[i].id}: {PERSONNEL[i].name}, {PERSONNEL[i].rank}; {PERSONNEL[i].assignment} - Status: {PERSONNEL[i].status.value}")
+    for person in PERSONNEL:
+        print(f"ID {person.id}: {person.name}, {person.rank}; {person.assignment} - Status: {person.status.value}")
 
 def add_personnel():
     print("******************************")
