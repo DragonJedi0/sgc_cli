@@ -9,6 +9,12 @@ class Status(Enum):
     KIA = "KIA"
     RETIRED = "Retired"
 
+class Role(Enum):
+    TEAMLEADER = "Team Leader"
+    TACTICAL = "Tactical"
+    SCIENTIST = "Scientist"
+    ARCHEOLOGIST = "Archeologist"
+
 class Personnel:
     def __init__(self, name, rank, assignment, role, status=Status.ACTIVE):
         global PERSONS_ID
@@ -30,5 +36,5 @@ class Missions:
         self.team = team
         self.date = date
         self.commanding_officer_id = commanding_officer_id
-        self.summary = summary
         self.participants = participants
+        self.summary = summary

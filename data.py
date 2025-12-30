@@ -1,6 +1,6 @@
-from models import Personnel, Missions
+from models import Personnel, Missions, Role, Status
 
-JACK = Personnel("Jack O'Neill", "Colonel", "SG-1", "Team Leader")
+JACK = Personnel("Jack O'Neill", "Colonel", "SG-1", "Team Leader", Status.ACTIVE)
 
 summary = "Initial recon through Stargate to Abydos."
 participants = [JACK.id]
