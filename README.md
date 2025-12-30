@@ -38,22 +38,22 @@ that I can later expand with SQL and a web-based UI (TypeScript).
 
 ## Project Structure
 
--sgc.py – Main CLI entrypoint and menu logic.
--data.py – In-memory “database” with initial personnel and missions.
--models.py – Data models and enums:
---Personnel
---Missions
---Status enum for personnel status (Active, MIA, KIA, Retired)
---Role enum (reserved for future use in a web UI)
+- sgc.py – Main CLI entrypoint and menu logic.
+- data.py – In-memory “database” with initial personnel and missions.
+- models.py – Data models and enums:
+    - Personnel
+    - Missions
+    - Status enum for personnel status (Active, MIA, KIA, Retired)
+    - Role enum (reserved for future use in a web UI)
 
 
 ## Roadmap / Future Plans
 This project is intentionally simple now so it can evolve as I learn more:
 
--Replace data.py with a real SQL database (e.g. SQLite/Postgres).
--Add the ability to:
---Edit personnel (rank, assignment, status).
---View detailed mission reports, including participant names.
--Expose the core data via an API.
--Build a web-based UI in TypeScript that talks to the backend.
--Add automated tests (possibly with Selenium once a UI exists).
+- Replace data.py with a real SQL database (e.g. SQLite/Postgres).
+- Add the ability to:
+    - Edit personnel (rank, assignment, status).
+    - View detailed mission reports, including participant names.
+- Expose the core data via an API.
+- Build a web-based UI in TypeScript that talks to the backend.
+- Add automated tests (possibly with Selenium once a UI exists).
