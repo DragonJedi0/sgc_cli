@@ -46,7 +46,7 @@ def add_mission():
         team_members = []
         for person in PERSONNEL:
             if person.assignment == team:
-                team_members.append(person)
+                team_members.append(person.id)
 
         return team_members
 
