@@ -10,14 +10,23 @@ that I can later expand with SQL and a web-based UI (TypeScript).
 - Text-based main menu:
   - `1` – List personnel
   - `2` – Add personnel
-  - `3` – List missions
-  - `4` – Add mission report
+  - `3` - View personnel
+  - `4` - Edit personnel
+  - `5` - Delete personnel
+  - `6` – List missions
+  - `7` – Add mission report
+  - `8` - View mission report
+  - `9` - Edit mission report
+  - `10` - Delete mission report
   - `0` – Exit
 - Hard-coded initial data:
   - Example: Colonel Jack O'Neill on SG-1 with an Abydos mission report.
 - Personnel management:
   - List all personnel with id, name, rank, assignment, and status.
   - Add new personnel via CLI prompts.
+  - View personnel detailed record info with id, name, rank, assignment, and status.
+  - Edit personnel record info via CLI prompts. (Currently only Rank and Assignment can be altered)
+  - Delete personnel record.
 - Mission reports:
   - List all missions with id, title, date, team, and commanding officer id.
   - Add new mission reports:
