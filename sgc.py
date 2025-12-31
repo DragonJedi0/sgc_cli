@@ -12,14 +12,17 @@ def main():
     # Loop the main menu until exit condition is true
     while not exit:
         print("******************************************")
-        print("1. List Personnel")
-        print("2. Add Personnel")
-        print("3. View Personnel")
-        print("4. Edit Personnel")
-        print("5. Delete Personnel")
-        print("6. List Missions")
-        print("7. Add Mission Report")
-        print("0. Exit")
+        print("1.  List Personnel")
+        print("2.  Add Personnel")
+        print("3.  View Personnel")
+        print("4.  Edit Personnel")
+        print("5.  Delete Personnel")
+        print("6.  List Missions")
+        print("7.  Add Mission Report")
+        print("8.  View Mission Report")
+        print("9.  Edit Mission Report")
+        print("10. Delete Mission Report")
+        print("0.  Exit")
 
         choice = input("Choose an option: ")
 
@@ -56,6 +59,17 @@ def main():
                 list_missions()
             case "7":
                 add_mission()
+            case "8":
+                try:
+                    report = get_mission_report("view")
+                except ValueError as err:
+                    print(str(err))
+                    continue
+                # Handle not found
+                if not report:
+                    print("ID not found. Please try again.\nUse 'List Missions' for list of valid IDs.")
+                    continue
+                view_mission_report(report)
 
             case "0":
                 print("Exiting...")
@@ -64,6 +78,47 @@ def main():
             case _:
                 print("******************************************")
                 print("That is not a valid option\nPlease select a valid option (0-4)")
+
+def view_mission_report(report):
+    # Find team members
+    team_members = []
+    for person in PERSONNEL:
+        for pid in report.participants:
+            if person.id == pid:
+                team_members.append(person)
+    
+    # Find Commanding Officer
+    co = team_members.pop(0)
+
+    # Print header
+    print("************************")
+    print(f"* Mission Report ID {report.id:02d} *")
+    print("************************")
+    print(f"- {report.title} -")
+    print(f"Date: {report.date}")
+    print(f"Team assigned: {report.team}")
+    print(f"Commanding Officer: {co.rank} {co.name}")
+    print(f"Participants:")
+    for person in team_members:
+        print(f"  - {person.rank} {person.name} - {person.role}")
+    print("Summary:\n")
+    print(f"{report.summary}\n")
+
+def get_mission_report(action):
+    # Print header
+    print("******************************")
+
+    # Ask user for mission report id
+    try:
+        mid = int(input(f"Enter mission report ID to {action}: "))
+    except ValueError:
+        raise ValueError("Invalid ID. Please enter a valid number.\nUse 'List Missions' for list of valid IDs.")
+    
+    for mission in MISSIONS:
+        if mission.id == mid:
+            return mission
+    
+    return None
 
 def add_mission():
     # Print header
