@@ -138,6 +138,9 @@ def add_personnel():
     print(f"Added {sg_member.id}: {sg_member.name} to {sg_member.assignment}")
 
 def get_personnel(action):
+    # Print header
+    print("******************************")
+
     # Ask user for personnel id
     try:
         pid = int(input(f"Enter personnel ID to {action}: "))
