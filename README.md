@@ -15,9 +15,9 @@ that I can later expand with SQL and a web-based UI (TypeScript).
   - `5` - Delete personnel
   - `6` – List missions
   - `7` – Add mission report
-  - `8` - View mission report
-  - `9` - Edit mission report
-  - `10` - Delete mission report
+  - `8` - View mission report (planned)
+  - `9` - Edit mission report (planned)
+  - `10` - Delete mission report (planned)
   - `0` – Exit
 - Hard-coded initial data:
   - Example: Colonel Jack O'Neill on SG-1 with an Abydos mission report.
