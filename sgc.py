@@ -2,17 +2,22 @@ from data import PERSONNEL, MISSIONS
 from models import Personnel, Missions, Role, Status
 
 def main():
+    # Set Loop control
     exit = False
 
+    # Print header
     print("******************************************")
     print("Welcome to SGC Personnel Management System")
 
+    # Loop the main menu until exit condition is true
     while not exit:
         print("******************************************")
         print("1. List Personnel")
         print("2. Add Personnel")
-        print("3. List Missions")
-        print("4. Add Mission Report")
+        print("3. View Personnel")
+        print("4. Edit Personnel")
+        print("5. List Missions")
+        print("6. Add Mission Report")
         print("0. Exit")
 
         choice = input("Choose an option: ")
@@ -23,8 +28,21 @@ def main():
             case "2":
                 add_personnel()
             case "3":
-                list_missions()
+                try:
+                    sg_member = get_personnel("view")
+                except ValueError as err:
+                    print(str(err))
+                    continue
+                # Handle not found
+                if not sg_member:
+                    print("ID not found. Please try again.\nUse 'List Personnel' for list of valid IDs.")
+                    continue
+                view_personnel(sg_member)
             case "4":
+                edit_personnel()
+            case "5":
+                list_missions()
+            case "6":
                 add_mission()
 
             case "0":
@@ -36,15 +54,22 @@ def main():
                 print("That is not a valid option\nPlease select a valid option (0-4)")
 
 def add_mission():
+    # Print header
     print("******************************")
+
+    # Ask user for core mission data
     title = input("Enter Mission Title: ")
     team = input("Enter SG Team: ")
     date = input("Enter mission date: ")
+
+    # Ask user to enter mission summary
     summary = input("Enter brief mission summary: ")
 
+    # helper function to populate participants list
     def get_team_members(team):
         team_members = []
         for person in PERSONNEL:
+            # Add only personnel assigned to SG team for mission report
             if person.assignment == team:
                 team_members.append(person.id)
 
@@ -52,31 +77,43 @@ def add_mission():
 
     participants = get_team_members(team)
 
+    # Catch empty participant list prior to creating mission entry
     if not participants:
         print("No personnel currently assigned to that team. Mission not added.")
         return
 
+    # Add mission report to MISSIONS list
     mission_report = Missions(title, team, date, participants[0], participants, summary)
     MISSIONS.append(mission_report)
 
+    # Print confirmation message
+    print("***********************************************")
     print(f"Added mission report {mission_report.id}, {mission_report.title}")
 
 def list_missions():
+    # Print Header
     print("************************************")
     print("* Stargate Command Mission Reports *")
     print("************************************")
+
+    # Loop through MISSIONS list and print simple mission report data
     for mission in MISSIONS:
         print(f"Mission Report {mission.id}: {mission.title}, {mission.date}; Team assigned: {mission.team}, Team Lead: {mission.commanding_officer_id}")
 
 def list_personnel():
+    # Print Header
     print("******************************")
     print("* Stargate Command Personnel *")
     print("******************************")
+
+    # Loop through PERSONNEL list and print simple personnel data
     for person in PERSONNEL:
         print(f"ID {person.id}: {person.name}, {person.rank}; {person.assignment} - Status: {person.status.value}")
 
 def add_personnel():
+    # Print header
     print("******************************")
+    # Ask user for personnel's name
     fname = input("Enter personnel's first name: ")
     mname = input("Enter personnel's middlie name (Press Enter for N/A): ")
     lname = input("Enter personnel's last name: ")
@@ -86,16 +123,66 @@ def add_personnel():
     else:
         full_name = fname + " " + lname
 
+    # Ask user for personnel's data
     rank = input("Enter personnel's rank: ")
     assignment = input("Enter personnel's assignment: ")
     role = input("Enter personnel's role: ")
 
     sg_member = Personnel(full_name, rank, assignment, role)
 
+    # Add personnel to PERSONNEL list
     PERSONNEL.append(sg_member)
 
+    # Print Confirmation message
     print("***********************************************")
     print(f"Added {sg_member.id}: {sg_member.name} to {sg_member.assignment}")
+
+def get_personnel(action):
+    # Ask user for personnel id
+    try:
+        pid = int(input(f"Enter personnel ID to {action}: "))
+    except ValueError:
+        raise ValueError("Invalid ID. Please enter a valid number.\nUse 'List Personnel' for list of valid IDs.")
+    
+    for person in PERSONNEL:
+        if person.id == pid:
+            return person
+    
+    return None
+
+def view_personnel(sg_member):
+    print(sg_member)
+
+def edit_personnel():
+    # Show personnel list
+    list_personnel()
+
+    # Find selected personnel
+    try:
+        sg_member = get_personnel("edit")
+    except ValueError as err:
+        print(str(err))
+        return
+    
+    # Handle not found
+    if not sg_member:
+        print("ID not found. Please try again.\nUse 'List Personnel' for list of valid IDs.")
+        return
+
+    # Edit fields (Enter = keep current value)
+    print("Press Enter to keep the current value")
+
+    new_rank = input(f"Enter new rank (Current: {sg_member.rank}): ")
+    if new_rank:
+        sg_member.rank = new_rank
+    
+    new_assignment = input(f"Enter new assignment (Current: {sg_member.assignment}): ")
+    if new_assignment:
+        sg_member.assignment = new_assignment
+    
+    # Print Confirmation message
+    print("***********************************************")
+    print(f"Updated ID {sg_member.id}: {sg_member.name}, {sg_member.rank}; {sg_member.assignment} - Status: {sg_member.status.value}")
 
 
 if __name__ == "__main__":
