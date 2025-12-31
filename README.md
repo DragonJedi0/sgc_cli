@@ -24,8 +24,8 @@ that I can later expand with SQL and a web-based UI (TypeScript).
 - Personnel management:
   - List all personnel with id, name, rank, assignment, and status.
   - Add new personnel via CLI prompts.
-  - View personnel detailed record info with id, name, rank, assignment, and status.
-  - Edit personnel record info via CLI prompts. (Currently only Rank and Assignment can be altered)
+  - View personnel detailed personnel records (id, name, rank, assignment, status).
+  - Edit personnel record info via CLI prompts. (Currently only rank and assignment can be altered)
   - Delete personnel record.
 - Mission reports:
   - List all missions with id, title, date, team, and commanding officer id.
@@ -61,7 +61,7 @@ This project is intentionally simple now so it can evolve as I learn more:
 
 - Replace data.py with a real SQL database (e.g. SQLite/Postgres).
 - Add the ability to:
-    - Edit personnel (rank, assignment, status).
+    - Edit addition personnel fields (eg. status).
     - View detailed mission reports, including participant names.
 - Expose the core data via an API.
 - Build a web-based UI in TypeScript that talks to the backend.
