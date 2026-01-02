@@ -26,7 +26,6 @@ class Personnel:
         self.role = role
         self.status = status
 
-
 class Missions:
     def __init__(self, title, team, date, commanding_officer_id, participants, summary=""):
         global MISSION_ID

@@ -15,9 +15,9 @@ that I can later expand with SQL and a web-based UI (TypeScript).
   - `5` - Delete personnel
   - `6` – List missions
   - `7` – Add mission report
-  - `8` - View mission report (planned)
-  - `9` - Edit mission report (planned)
-  - `10` - Delete mission report (planned)
+  - `8` - View mission report
+  - `9` - Edit mission report
+  - `10` - Delete mission report
   - `0` – Exit
 - Hard-coded initial data:
   - Example: Colonel Jack O'Neill on SG-1 with an Abydos mission report.
@@ -33,6 +33,14 @@ that I can later expand with SQL and a web-based UI (TypeScript).
     - Enter title, team, date, and summary.
     - Automatically link all personnel assigned to that team as participants.
     - Use the first team member as the commanding officer (for now).
+  - View mission report details including:
+    - CO rank and name
+    - Participant rank, name, and role
+    - Mission summary
+  - Edit mission reports:
+    - Add details to summary
+    - Automatically updates the date to the date edited but does not override original posting date
+  - Delete mission report.
 
 ## How to Run
 

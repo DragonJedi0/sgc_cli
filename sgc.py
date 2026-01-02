@@ -1,5 +1,6 @@
 from data import PERSONNEL, MISSIONS
 from models import Personnel, Missions, Role, Status
+from datetime import datetime
 
 def main():
     # Set Loop control
@@ -32,44 +33,21 @@ def main():
             case "2":
                 add_personnel()
             case "3":
-                try:
-                    sg_member = get_personnel("view")
-                except ValueError as err:
-                    print(str(err))
-                    continue
-                # Handle not found
-                if not sg_member:
-                    print("ID not found. Please try again.\nUse 'List Personnel' for list of valid IDs.")
-                    continue
-                view_personnel(sg_member)
+                view_personnel()
             case "4":
                 edit_personnel()
             case "5":
-                try:
-                    sg_member = get_personnel("delete")
-                except ValueError as err:
-                    print(str(err))
-                    continue
-                # Handle not found
-                if not sg_member:
-                    print("ID not found. Please try again.\nUse 'List Personnel' for list of valid IDs.")
-                    continue
-                delete_personnel(sg_member)
+                delete_personnel()
             case "6":
                 list_missions()
             case "7":
                 add_mission()
             case "8":
-                try:
-                    report = get_mission_report("view")
-                except ValueError as err:
-                    print(str(err))
-                    continue
-                # Handle not found
-                if not report:
-                    print("ID not found. Please try again.\nUse 'List Missions' for list of valid IDs.")
-                    continue
-                view_mission_report(report)
+                view_mission_report()
+            case "9":
+                edit_mission_report()
+            case "10":
+                delete_mission_report()
 
             case "0":
                 print("Exiting...")
@@ -77,9 +55,81 @@ def main():
 
             case _:
                 print("******************************************")
-                print("That is not a valid option\nPlease select a valid option (0-4)")
+                print("That is not a valid option\nPlease select a valid option (0-10)")
 
-def view_mission_report(report):
+def get_array_item(action, TYPE):
+    # Find selected personnel or mission report
+    try:
+        if TYPE == "personnel":
+            obj = get_personnel(action)
+        elif TYPE == "mission":
+            obj = get_mission_report(action)
+        else:
+            print("Error processing data library.")
+            return
+    except ValueError as err:
+        print(str(err))
+        return
+
+    # Handle not found
+    if not obj:
+        if TYPE == "personnel":
+            print("ID not found. Please try again.\nUse 'List Personnel' for list of valid IDs.")
+        else:
+            print("ID not found. Please try again.\nUse 'List Missions' for list of valid IDs.")
+        return
+
+    return obj
+
+def delete_mission_report():
+    # Get mission report
+    report = get_array_item("delete", "mission")
+    if not report:
+        return
+
+    # Print Confirmation message
+    confirm = input(f"Are you sure you want to delete Record ID {report.id:02d}? (Y/N): ").strip().lower()
+
+    # Handle invalid input
+    if confirm not in ("y", "yes", "n", "no"):
+        print("That is not a valid selection")
+        print("Returning to main menu...")
+        return
+
+    # If Yes, remove from MISSIONS
+    if confirm in ("y", "yes"):
+        MISSIONS.remove(report)
+        print(f"Successfully removed Mission Record (ID {report.id:02d})")
+    else:
+        print("Deletion cancled.")
+    
+    print(f"Returning to main menu...")
+
+def edit_mission_report():
+    # Get mission report
+    report = get_array_item("edit", "mission")
+    if not report:
+        return
+
+    # Edit fields (Enter = keep current value)
+    print("Press Enter to keep the current value")
+
+    report.date += f" (Edited: {datetime.now().date()})"
+
+    new_report = input("Enter additional detils: ")
+    if new_report:
+        report.summary += f"\nSupplemental: {new_report}\n"
+
+    # Print header
+    print("************************")
+    print(f"Mission Report ID {report.id:02d} Updated")
+
+def view_mission_report():
+    # Get sg_member
+    report = get_array_item("view", "mission")
+    if not report:
+        return
+
     # Find team members
     team_members = []
     for person in PERSONNEL:
@@ -163,6 +213,9 @@ def list_missions():
     print("* Stargate Command Mission Reports *")
     print("************************************")
 
+    if not MISSIONS:
+        print("No records found...")
+
     # Loop through MISSIONS list and print simple mission report data
     for mission in MISSIONS:
         print(f"Mission Report {mission.id:02d}: {mission.title}, {mission.date}; Team assigned: {mission.team}, Team Lead: {mission.commanding_officer_id}")
@@ -205,7 +258,7 @@ def add_personnel():
 
     # Print Confirmation message
     print("***********************************************")
-    print(f"Added {sg_member.id:02d}: {sg_member.name} to {sg_member.assignment}")
+    print(f"Added Record ID {sg_member.id:02d}: {sg_member.name} to {sg_member.assignment}")
 
 def get_personnel(action):
     # Print header
@@ -223,7 +276,12 @@ def get_personnel(action):
     
     return None
 
-def view_personnel(sg_member):
+def view_personnel():
+    # Get sg_member
+    sg_member =  get_array_item("view", "personnel")
+    if not sg_member:
+        return
+
     # Print header
     print("***********************")
     print(f"* SGC Personnel ID {sg_member.id:02d} *")
@@ -235,16 +293,9 @@ def view_personnel(sg_member):
     print(f"Status: {sg_member.status.value}")
 
 def edit_personnel():
-    # Find selected personnel
-    try:
-        sg_member = get_personnel("edit")
-    except ValueError as err:
-        print(str(err))
-        return
-    
-    # Handle not found
+    # Get sg_member
+    sg_member = get_array_item("edit", "personnel")
     if not sg_member:
-        print("ID not found. Please try again.\nUse 'List Personnel' for list of valid IDs.")
         return
 
     # Edit fields (Enter = keep current value)
@@ -262,7 +313,12 @@ def edit_personnel():
     print("***********************************************")
     print(f"Updated ID {sg_member.id:02d}: {sg_member.name}, {sg_member.rank}; {sg_member.assignment} - Status: {sg_member.status.value}")
 
-def delete_personnel(sg_member):
+def delete_personnel():
+    # Get sg_member
+    sg_member = get_array_item("delete", "personnel")
+    if not sg_member:
+        return
+
     # Print Confirmation message
     confirm = input(f"Are you sure you want to delete Record ID {sg_member.id:02d}? (Y/N): ").strip().lower()
 
