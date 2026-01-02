@@ -101,7 +101,7 @@ def delete_mission_report():
         MISSIONS.remove(report)
         print(f"Successfully removed Mission Record (ID {report.id:02d})")
     else:
-        print("Deletion cancled.")
+        print("Deletion canceled.")
     
     print(f"Returning to main menu...")
 
@@ -116,7 +116,7 @@ def edit_mission_report():
 
     report.date += f" (Edited: {datetime.now().date()})"
 
-    new_report = input("Enter additional detils: ")
+    new_report = input("Enter additional details: ")
     if new_report:
         report.summary += f"\nSupplemental: {new_report}\n"
 
@@ -215,6 +215,7 @@ def list_missions():
 
     if not MISSIONS:
         print("No records found...")
+        return
 
     # Loop through MISSIONS list and print simple mission report data
     for mission in MISSIONS:
@@ -228,6 +229,7 @@ def list_personnel():
 
     if not PERSONNEL:
         print("No records found...")
+        return
 
     # Loop through PERSONNEL list and print simple personnel data
     for person in PERSONNEL:
