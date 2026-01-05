@@ -10,23 +10,23 @@ that I can later expand with SQL and a web-based UI (TypeScript).
 - Text-based main menu:
   - `1` – List personnel
   - `2` – Add personnel
-  - `3` - View personnel
-  - `4` - Edit personnel
-  - `5` - Delete personnel
+  - `3` – View personnel
+  - `4` – Edit personnel
+  - `5` – Delete personnel
   - `6` – List missions
   - `7` – Add mission report
-  - `8` - View mission report
-  - `9` - Edit mission report
-  - `10` - Delete mission report
+  - `8` – View mission report
+  - `9` – Edit mission report
+  - `10` – Delete mission report
   - `0` – Exit
 - Hard-coded initial data:
   - Example: Colonel Jack O'Neill on SG-1 with an Abydos mission report.
 - Personnel management:
   - List all personnel with id, name, rank, assignment, and status.
   - Add new personnel via CLI prompts.
-  - View personnel detailed personnel records (id, name, rank, assignment, status).
+  - View detailed personnel records (id, name, rank, assignment, status).
   - Edit personnel record info via CLI prompts. (Currently only rank and assignment can be altered)
-  - Delete personnel record.
+  - Delete personnel records.
 - Mission reports:
   - List all missions with id, title, date, team, and commanding officer id.
   - Add new mission reports:
@@ -39,7 +39,7 @@ that I can later expand with SQL and a web-based UI (TypeScript).
     - Mission summary
   - Edit mission reports:
     - Add details to summary
-    - Automatically updates the date to the date edited but does not override original posting date
+    - Append an ‘edited’ date to the existing mission date without removing the original.
   - Delete mission report.
 
 ## How to Run
@@ -55,13 +55,13 @@ that I can later expand with SQL and a web-based UI (TypeScript).
 
 ## Project Structure
 
-- sgc.py – Main CLI entrypoint and menu logic.
-- data.py – In-memory “database” with initial personnel and missions.
-- models.py – Data models and enums:
-    - Personnel
-    - Missions
-    - Status enum for personnel status (Active, MIA, KIA, Retired)
-    - Role enum (reserved for future use in a web UI)
+- `sgc.py` – Main CLI entrypoint and menu logic.
+- `data.py` – In-memory “database” with initial personnel and missions.
+- `models.py` – Data models and enums:
+    - `Personnel`
+    - `Missions`
+    - `Status` enum for personnel status (Active, MIA, KIA, Retired)
+    - `Role` enum (reserved for future use in a web UI)
 
 
 ## Roadmap / Future Plans
@@ -69,8 +69,7 @@ This project is intentionally simple now so it can evolve as I learn more:
 
 - Replace data.py with a real SQL database (e.g. SQLite/Postgres).
 - Add the ability to:
-    - Edit addition personnel fields (eg. status).
-    - View detailed mission reports, including participant names.
+    - Edit additional personnel fields (eg. status).
 - Expose the core data via an API.
 - Build a web-based UI in TypeScript that talks to the backend.
 - Add automated tests (possibly with Selenium once a UI exists).
